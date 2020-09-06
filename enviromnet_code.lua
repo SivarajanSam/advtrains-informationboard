@@ -1,14 +1,17 @@
 --[[
-    id - train Atc_id
-    place - the place where train is / the station nearby
-    dir - going direction true/false. 
-    atstn- determines whether the train is at station
-    line - train line number
+
+    this is to be written to a lua ATC environment
+F.trains Table values:
+    -id - train Atc_id
+    -place - the place where train is / the station nearby
+    -dir - going direction true/false. 
+    -atstn- determines whether the train is at station
+    -line - train line number
 
 ]]
 
 
-F = {}
+--F = {}
 F.depot= false
 F.train = {id = {}, place={},line={},dir={},atstn={}} --a table to store all train data
 
@@ -19,8 +22,8 @@ F.find_train_by_id = function (idn) -- this function retruns index of train data
         else
             return -1
         end
+    end
 end
-
 F.update_train_info= function(tid, loc,tline,direction,stn)  -- this is to overwrite train info
     x = F.find_train_by_id(tid) --we find train info
     if x == -1 then -- -1 means info is absent
@@ -32,16 +35,18 @@ F.update_train_info= function(tid, loc,tline,direction,stn)  -- this is to overw
     else
         F.train.place[x]=loc
         if tline<=99 then F.train.line[x]=tline else error("Invalid info") end
-       if dir == true or dir == false then  F.train.dir[x]=direction else error("Invalid info") ) end
+       if dir == true or dir == false then  F.train.dir[x]=direction else error("Invalid info")  end
+    end
 end
 
-F.get_info_by_place = funtion(loc,fdir) -- to get table of trains that are there in a particular station/ near by station
+F.get_info_by_place = function(loc,fdir) -- to get table of trains that are there in a particular station/ near by station
     id = {}
     for i,v in pairs(F.train.place)do
         if v == loc  and F.train.dir[i]== fdir and F.train.atstn[i] == true then
             id[#id+1]=F.train.id[i]
         end
         return id
+    end
 end
 F.get_info_by_id= function(id) --returns info of particular train
     x= F.find_train_by_id(id)
@@ -51,7 +56,6 @@ F.get_info_by_id= function(id) --returns info of particular train
     else
         error("Train Not found")
     end
-
 end
 
 F.cleartable = function() -- handy function to clean the table for reset
