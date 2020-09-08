@@ -1,11 +1,11 @@
-event={}
-event.type = "interrupt"
+--event={}
+--event.type = "interrupt"
 
 interrupt(1)
 place = ""
 dir = nil -- either true / false
 line = 0
-if event.type == "interrupt" then
+if event.puch or event.int or event.digiline then
     avaliabletrains = F.get_train_info_by_place(place,dir) 
     x= #avaialbetrains
     if x > 1 then
@@ -20,7 +20,7 @@ if event.type == "interrupt" then
     elseif x ==0 then
         digiline_send(ctrler,"no more trains" )
     elseif x==1
-        diigiline_send("ctrler",{msg=:"one train is avaialbe ",ids=avaialbetrains[1]})
+        diigiline_send("ctrler","A train is arriving")
     end
     
 end
