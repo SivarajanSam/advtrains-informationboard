@@ -16,27 +16,29 @@ F.depot= false
 F.train = {id = {}, place={},line={},dir={},atstn={}} --a table to store all train data
 
 F.find_train_by_id = function (idn) -- this function retruns index of train data
-    for i,v in pairs(f.train.id)do
+    for i,v in pairs(F.train.id)do
         if idn == v then
-            return i
-        else
-            return -1
-        end
-    end
+           print(i) 
+           return i         
+         end
+     end
+    return -1
 end
 F.update_train_info= function(tid, loc,tline,direction,stn)  -- this is to overwrite train info
     x = F.find_train_by_id(tid) --we find train info
-    if x == -1 then -- -1 means info is absent
+    if x == -1 or x == nil then -- -1 means info is absent
         F.train.id[#F.train.id+1]=tid --appending infos
         F.train.place[#F.train.place+1]=loc
         if tline<=99 then F.train.line[#F.train.line+1]=tline end
-       if dir == true or dir == false then  F.train.dir[#F.dir.line+1]=direction else error("Invalid info") end
-        if stn == true or stn == false then  F.train.dir[#F.train.line+1]=direction else error("Invalid info")   end
+       if type(direction)=="boolean" then  F.train.dir[#F.train.dir+1]=direction else error("Invalid info") end
+        if type(stn)=="boolean" then F.train.atstn[#F.train.atstn+1]=stn else error("Invalid info")   end
+print("done")
     else
         F.train.place[x]=loc
         if tline<=99 then F.train.line[x]=tline else error("Invalid info") end
-       if dir == true or dir == false then  F.train.dir[x]=direction else error("Invalid info")  end
-    end
+       if  type(direction)=="boolean" then  F.train.dir[x]=direction else error("Invalid info")  end
+    print("done")
+end
 end
 
 F.get_info_by_place = function(loc,fdir) -- to get table of trains that are there in a particular station/ near by station
